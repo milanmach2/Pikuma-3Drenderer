@@ -151,13 +151,18 @@ void update(void) {
             // TODO: multiply the scale_matrix by the vertex
             vec4_t transformed_vertex = vec4_from_vec3(face_vertices[j]);
             
+            // Create World Matrix combining scale, rotation and translation
+            // Order matters: 1. scale, 2. rotate, 3. translate [T]*[R]*[S]*v
+            mat4_t world_matrix = mat4_identity();
+            world_matrix = mat4_mul_mat4(scale_matrix, world_matrix);
+            world_matrix = mat4_mul_mat4(rotation_matrix_z, world_matrix);
+            world_matrix = mat4_mul_mat4(rotation_matrix_y, world_matrix);
+            world_matrix = mat4_mul_mat4(rotation_matrix_x, world_matrix);
+            world_matrix = mat4_mul_mat4(translation_matrix, world_matrix);
             
+            //multiply all matrices and load in one operation
             
-            transformed_vertex = mat4_mul_vec4(scale_matrix, transformed_vertex);
-            transformed_vertex = mat4_mul_vec4(rotation_matrix_x, transformed_vertex);
-            transformed_vertex = mat4_mul_vec4(rotation_matrix_y, transformed_vertex);
-            transformed_vertex = mat4_mul_vec4(rotation_matrix_z, transformed_vertex);
-            transformed_vertex = mat4_mul_vec4(translation_matrix, transformed_vertex);
+            transformed_vertex = mat4_mul_vec4(world_matrix, transformed_vertex);
             
             // translate vertex from the camera
             transformed_vertex.z += 5;
