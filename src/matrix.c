@@ -114,7 +114,7 @@ mat4_t mat4_mul_mat4(mat4_t a, mat4_t b) {
 // aspect ratio and perspective
 
 
-mat4_t mat4_nake_perspective(float fov, float aspect, float znear, float zfar) {
+mat4_t mat4_make_perspective(float fov, float aspect, float znear, float zfar) {
     // |  (h/w)*1/tan (fov/2)             0           0                  0 |
     // |                    0  1/tan(fov/2)           0                  0 |
     // |                    0             0  zf/(zf-zn)  -(-zf*zn)/(zf-zn) |
@@ -129,7 +129,7 @@ mat4_t mat4_nake_perspective(float fov, float aspect, float znear, float zfar) {
     return m;
 }
 
-vec4_t mat4_mul_vect_project (mat4_t mat_proj, vec4_t v) {
+vec4_t mat4_mul_vec4_project (mat4_t mat_proj, vec4_t v) {
     // Multiplication by the Projection Matrix by our original vector
     vec4_t result = mat4_mul_vec4(mat_proj, v);
     
